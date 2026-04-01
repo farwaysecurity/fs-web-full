@@ -23,6 +23,18 @@ function auth(req, res, next) {
   }
 }
 
+// ─── Admin signup (JWT protected — only existing admins can create new ones) ──
+app.post('/api/admins', (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) return res.status(400).json({ error: 'Username and password required' });
+  if (password.length < 6) return res.status(400).json({ error: 'Password must be at least 6 characters' });
+  const exists = get('SELECT id FROM admins WHERE username = ?', [username]);
+  if (exists) return res.status(409).json({ error: 'Username already taken' });
+  const hashed = bcrypt.hashSync(password, 10);
+  const result = run('INSERT INTO admins (username, password) VALUES (?, ?)', [username, hashed]);
+  res.status(201).json({ id: result.lastInsertRowid, username });
+});
+
 // ─── Admin login ─────────────────────────────────────────────────────────────
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;

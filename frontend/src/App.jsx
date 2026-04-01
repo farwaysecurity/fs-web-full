@@ -12,6 +12,7 @@ import Contact from './pages/Contact';
 
 // Admin
 import Login from './pages/admin/Login';
+import Signup from './pages/admin/Signup';
 import Dashboard from './pages/admin/Dashboard';
 import MalwareDB from './pages/admin/MalwareDB';
 import Licenses from './pages/admin/Licenses';
@@ -53,6 +54,7 @@ function AdminLayout() {
           <NavLink to="/admin/usage"     style={linkStyle}>📈 Usage</NavLink>
           <NavLink to="/admin/downloads" style={linkStyle}>📥 Downloads</NavLink>
           <NavLink to="/admin/apikeys"   style={linkStyle}>🔌 API Keys</NavLink>
+          <NavLink to="/admin/signup"    style={linkStyle}>👤 Add Admin</NavLink>
         </nav>
         <div style={{ marginTop: 'auto', padding: '0 12px' }}>
           <NavLink to="/" style={{ ...s.link, borderTop: '1px solid #30363d', paddingTop: 16, marginTop: 8 }}>
@@ -105,7 +107,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/admin/login" element={<Login />} />
+        <Route path="/admin/login"  element={<Login />} />
+        <Route path="/admin/signup" element={<Signup />} />
         <Route path="/admin/*" element={<PrivateRoute><AdminLayout /></PrivateRoute>} />
         <Route path="/*" element={<WebsiteLayout />} />
       </Routes>
